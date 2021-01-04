@@ -1,11 +1,10 @@
 scgi_local = /tmp/rtorrent.sock
 
 encoding_list = UTF-8
-port_range = 49184-49184
+port_range = 55556-55560
 port_random = no
 check_hash = no
-directory = /data/torrents
-session = /data/.session
+session = /media/dropbox/torrent/incomplete
 encryption = allow_incoming, try_outgoing, enable_retry
 trackers.use_udp.set = yes
 dht.mode.set = off
@@ -19,9 +18,14 @@ max_uploads = 15
 
 network.xmlrpc.size_limit.set = 10000000
 
-schedule = watch_directory,1,1,"load.start=/data/.watch/*.torrent"
+# Watch a directory for new torrents, and stop those that have been
+# deleted.
+schedule = watch_dir_jap,5,5,"load_start=/media/watch/jap/*.torrent,d.set_directory=/media/dropbox/torrent/jap/, d.custom3.set=/media/private/Japanese/TOSORT, d.custom1.set=JPrawn"
+schedule = watch_dir_new,5,5,"load_start=/media/watch/ipt/*.torrent,d.set_directory=/media/dropbox/torrent/ipt/, d.custom3.set=/media/dropbox/new-shows, d.custom1.set=New"
+schedule = watch_dir_kor,5,5,"load_start=/media/watch/kor/*.torrent,d.set_directory=/media/dropbox/torrent/kor/, d.custom3.set=/media/tv, d.custom1.set=KorTV"
+schedule = untied_directory,5,5,stop_untied=
 schedule = scgi_permission,0,0,"execute.nothrow=chmod,\"g+w,o=\",/tmp/rtorrent.sock"
 schedule = insufficient_disk_space,1,30,close_low_diskspace=500M
 
-method.set_key=event.download.finished,unrar,"execute={/usr/local/bin/rtunrar.sh,$d.base_path=}"
-method.set_key=event.download.inserted_new,loaded_time,"d.custom.set=addtime,$cat=$system.time=;d.save_full_session="
+#method.set_key=event.download.finished,unrar,"execute={/usr/local/bin/rtunrar.sh,$d.base_path=}"
+#method.set_key=event.download.inserted_new,loaded_time,"d.custom.set=addtime,$cat=$system.time=;d.save_full_session="

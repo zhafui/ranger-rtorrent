@@ -9,7 +9,7 @@ ARG BUILD_CORES
 ENV UID=991 GID=991 \
     FLOOD_SECRET=supersecret30charactersminimum \
     WEBROOT=/ \
-    DISABLE_AUTH=false \
+    DISABLE_AUTH=true \
     RTORRENT_SOCK=true \
     PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 
@@ -77,7 +77,7 @@ COPY rootfs /
 RUN chmod +x /usr/local/bin/* /etc/s6.d/*/* /etc/s6.d/.s6-svscan/* \
  && cd /usr/flood/ && npm run build
 
-VOLUME /data /flood-db
+VOLUME /flood-db /media/watch /media/dropbox
 
 EXPOSE 3000 49184 49184/udp
 

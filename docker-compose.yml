@@ -1,0 +1,18 @@
+version: "0.1"  # optional since v1.27.0
+services:
+  rtorrent:
+    build: .
+    ports:
+      - 3000
+      - 49184
+      - 49184/udp
+    volumes:
+      - .:/code
+      - rtorrent-watchDir:/media/watch
+      - rtorrent-data:/media/dropbox
+    links:
+      - redis
+  redis:
+    image: redis
+volumes:
+  logvolume01: {}
