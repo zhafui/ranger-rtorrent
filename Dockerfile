@@ -1,15 +1,15 @@
-FROM alpine:3.12
+FROM alpine:3.14
 
 ARG RTORRENT_VER=0.9.8
 ARG LIBTORRENT_VER=0.13.8
-ARG MEDIAINFO_VER=20.09
-ARG FLOOD_VER=4.3.1
+ARG MEDIAINFO_VER=21.03
+ARG FLOOD_VER=4.6.1
 ARG BUILD_CORES
 
 ENV UID=991 GID=991 \
     FLOOD_SECRET=supersecret30charactersminimum \
     WEBROOT=/ \
-    DISABLE_AUTH=true \
+    DISABLE_AUTH=false \
     RTORRENT_SOCK=true \
     PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 
@@ -43,7 +43,7 @@ RUN NB_CORES=${BUILD_CORES-`getconf _NPROCESSORS_CONF`} \
     su-exec \
     python2 \
     nodejs \
-    nodejs-npm \
+    npm \
     unrar \
     findutils \
  && cd /tmp && mkdir libtorrent rtorrent \
@@ -77,7 +77,7 @@ COPY rootfs /
 RUN chmod +x /usr/local/bin/* /etc/s6.d/*/* /etc/s6.d/.s6-svscan/* \
  && cd /usr/flood/ && npm run build
 
-VOLUME /flood-db /media/watch /media/dropbox
+VOLUME /data /flood-db
 
 EXPOSE 3000 49184 49184/udp
 
