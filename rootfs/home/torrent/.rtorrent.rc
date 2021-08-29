@@ -7,9 +7,9 @@
 #
 # This assumes the following directory structure:
 #
-# /media/dropbox/torrent/incomplete - temporaray location for torrents while downloading (see "directory")
-# /media/dropbox/torrent/{ipt,jap} - Torrents are moved here when complete (see "on_finished")
-# /media/dropbox/torrentTorrents/Downloading/rtorrent.session - for storing rtorrent session information
+# /data/torrent/incomplete - temporaray location for torrents while downloading (see "directory")
+# /data/torrent/{ipt,jap} - Torrents are moved here when complete (see "on_finished")
+# /data/torrent/Torrents/Downloading/rtorrent.session - for storing rtorrent session information
 #
 
 # Maximum and minimum number of peers to connect to per torrent.
@@ -28,18 +28,18 @@ download_rate = 0
 upload_rate = 50
 
 # Default directory to save the downloaded torrents.
-#directory = /media/dropbox/torrent
+#directory = /data/torrent
 
 # Default session directory. Make sure you don't run multiple instance
 # of rtorrent using the same session directory. Perhaps using a
 # relative path?
-session = /media/dropbox/torrent/incomplete
+session = /data/torrent/incomplete
 
 # Watch a directory for new torrents, and stop those that have been
 # deleted.
-schedule = watch_dir_jap,5,5,"load_start=/media/watch/jap/*.torrent,d.set_directory=/media/dropbox/torrent/jap/, d.custom3.set=/media/private/Japanese/TOSORT, d.custom1.set=JPrawn"
-schedule = watch_dir_new,5,5,"load_start=/media/watch/ipt/*.torrent,d.set_directory=/media/dropbox/torrent/ipt/, d.custom3.set=/media/dropbox/new-shows, d.custom1.set=New"
-schedule = watch_dir_kor,5,5,"load_start=/media/watch/kor/*.torrent,d.set_directory=/media/dropbox/torrent/kor/, d.custom3.set=/media/tv, d.custom1.set=KorTV"
+schedule = watch_dir_jap,5,5,"load_start=/watch/jap/*.torrent,d.set_directory=/data/torrent/jap/"
+schedule = watch_dir_new,5,5,"load_start=/watch/ipt/*.torrent,d.set_directory=/data/torrent/ipt/"
+schedule = watch_dir_kor,5,5,"load_start=/watch/kor/*.torrent,d.set_directory=/data/torrent/kor/"
 schedule = untied_directory,5,5,stop_untied=
 
 # Close torrents when diskspace is low. */
@@ -56,7 +56,7 @@ schedule = untied_directory,5,5,stop_untied=
 # on_finished = move_complete,"d.set_directory=$d.get_custom1= ;execute=mv,-u,$d.get_base_path=,$d.get_custom1="
 
 # On completion, move the files to the directory from custom3
-method.set_key=event.download.finished,move_complete,"execute=mv,-u,$d.get_base_path=,$d.get_custom3=;d.set_directory=$d.get_custom3="
+#method.set_key=event.download.finished,move_complete,"execute=mv,-u,$d.get_base_path=,$d.get_custom3=;d.set_directory=$d.get_custom3="
 
 # Port range to use for listening.
 port_range = 55556-55560
