@@ -62,6 +62,7 @@ schedule = untied_directory,5,5,stop_untied=
 port_range = 55556-55560
 
 scgi_local = /tmp/rtorrent.sock
+schedule = scgi_permission,0,0,"execute.nothrow=chmod,\"g+w,o=\",/tmp/rtorrent.sock"
 
 # Start opening ports at a random position within the port range.
 port_random = yes

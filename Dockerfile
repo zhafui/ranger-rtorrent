@@ -72,7 +72,7 @@ RUN NB_CORES=${BUILD_CORES-`getconf _NPROCESSORS_CONF`} \
  && apk del build-dependencies \
  && rm -rf /var/cache/apk/* /tmp/*
 
-COPY rootfs/ /
+COPY rootfs /
 
 RUN chmod +x /usr/local/bin/* /etc/s6.d/*/* /etc/s6.d/.s6-svscan/* \
  && cd /usr/flood/ && npm run build
@@ -84,7 +84,6 @@ EXPOSE 3000 49184 49184/udp
 LABEL description="BitTorrent client with WebUI front-end" \
       rtorrent="rTorrent BiTorrent client v$RTORRENT_VER" \
       libtorrent="libtorrent v$LIBTORRENT_VER" \
-      maintainer="ZhaFui <zhafui@vorlon.net.nz>" \
-      Original="Wonderfall <wonderfall@targaryen.house>"
+      maintainer="Wonderfall <wonderfall@targaryen.house>"
 
 CMD ["run.sh"]
