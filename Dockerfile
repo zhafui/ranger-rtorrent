@@ -55,18 +55,7 @@ RUN NB_CORES=${BUILD_CORES-`getconf _NPROCESSORS_CONF`} \
  && cd /tmp/libtorrent && ./autogen.sh && ./configure && make -j ${NB_CORES} && make install \
  && cd /tmp/rtorrent && ./autogen.sh && ./configure --with-xmlrpc-c && make -j ${NB_CORES} && make install \
  && cd /tmp \
- && wget -q http://mediaarea.net/download/binary/mediainfo/${MEDIAINFO_VER}/MediaInfo_CLI_${MEDIAINFO_VER}_GNU_FromSource.tar.gz \
- && wget -q http://mediaarea.net/download/binary/libmediainfo0/${MEDIAINFO_VER}/MediaInfo_DLL_${MEDIAINFO_VER}_GNU_FromSource.tar.gz \
- && tar xzf MediaInfo_DLL_${MEDIAINFO_VER}_GNU_FromSource.tar.gz \
- && tar xzf MediaInfo_CLI_${MEDIAINFO_VER}_GNU_FromSource.tar.gz \
- && cd /tmp/MediaInfo_DLL_GNU_FromSource && ./SO_Compile.sh \
- && cd /tmp/MediaInfo_DLL_GNU_FromSource/ZenLib/Project/GNU/Library && make install \
- && cd /tmp/MediaInfo_DLL_GNU_FromSource/MediaInfoLib/Project/GNU/Library && make install \
- && cd /tmp/MediaInfo_CLI_GNU_FromSource && ./CLI_Compile.sh \
- && cd /tmp/MediaInfo_CLI_GNU_FromSource/MediaInfo/Project/GNU/CLI && make install \
  && strip -s /usr/local/bin/rtorrent \
- && strip -s /usr/local/bin/mediainfo \
- && ln -sf /usr/local/bin/mediainfo /usr/bin/mediainfo \
  && mkdir /usr/flood && cd /usr/flood && wget -qO- https://github.com/jesec/flood/archive/v${FLOOD_VER}.tar.gz | tar xz --strip 1 \
  && npm install && npm cache clean --force \
  && apk del build-dependencies \
