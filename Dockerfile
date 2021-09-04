@@ -39,7 +39,6 @@ RUN NB_CORES=${BUILD_CORES-`getconf _NPROCESSORS_CONF`} \
     gzip \
     zip \
     zlib \
-    s6 \
     su-exec \
     python2 \
     nodejs \
