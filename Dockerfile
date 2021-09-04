@@ -9,7 +9,7 @@ ARG BUILD_CORES
 ENV UID=991 GID=991 \
     FLOOD_SECRET=supersecret30charactersminimum \
     WEBROOT=/ \
-    DISABLE_AUTH=false \
+    DISABLE_AUTH=true \
     RTORRENT_SOCK=true \
     PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 
