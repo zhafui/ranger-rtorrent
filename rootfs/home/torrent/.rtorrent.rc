@@ -59,7 +59,7 @@ schedule = untied_directory,5,5,stop_untied=
 #method.set_key=event.download.finished,move_complete,"execute=mv,-u,$d.get_base_path=,$d.get_custom3=;d.set_directory=$d.get_custom3="
 
 # Port range to use for listening.
-port_range = 55556-55560
+port_range = 49184-49184
 
 scgi_local = /tmp/rtorrent.sock
 schedule = scgi_permission,0,0,"execute.nothrow=chmod,\"g+w,o=\",/tmp/rtorrent.sock"
