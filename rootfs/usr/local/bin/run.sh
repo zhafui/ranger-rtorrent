@@ -1,6 +1,6 @@
 #!/bin/sh
 
-rm -f /data/.session/rtorrent.lock
+rm -f /data/incomplete/rtorrent.lock
 
 chown -R $UID:$GID /data /home/torrent /tmp /usr/flood/dist /flood-db /etc/s6.d
 
