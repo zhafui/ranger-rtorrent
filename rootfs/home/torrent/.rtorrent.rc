@@ -1,112 +1,29 @@
-# This is an example resource file for rTorrent. Copy to
-# ~/.rtorrent.rc and enable/modify the options as needed. Remember to
-# uncomment the options you wish to enable.
-#
-# Based on original .rtorrent.rc file from http://libtorrent.rakshasa.no/
-# Modified by Lemonberry for rtGui http://rtgui.googlecode.com/
-#
-# This assumes the following directory structure:
-#
-# /data/torrent/incomplete - temporaray location for torrents while downloading (see "directory")
-# /data/torrent/{ipt,jap} - Torrents are moved here when complete (see "on_finished")
-# /data/torrent/Torrents/Downloading/rtorrent.session - for storing rtorrent session information
-#
-
-# Maximum and minimum number of peers to connect to per torrent.
-min_peers = 2
-max_peers = 10
-
-# Same as above but for seeding completed torrents (-1 = same as downloading)
-min_peers_seed = 2
-max_peers_seed = 10
-
-# Maximum number of simultanious uploads per torrent.
-max_uploads = 10
-
-# Global upload and download rate in KiB. "0" for unlimited.
-download_rate = 0
-upload_rate = 50
-
-# Default directory to save the downloaded torrents.
-#directory = /data/torrent
-
-# Default session directory. Make sure you don't run multiple instance
-# of rtorrent using the same session directory. Perhaps using a
-# relative path?
-session = /data/torrent/incomplete
-
-# Watch a directory for new torrents, and stop those that have been
-# deleted.
-schedule = watch_dir_jap,5,5,"load_start=/watch/jap/*.torrent,d.set_directory=/data/torrent/jap/"
-schedule = watch_dir_new,5,5,"load_start=/watch/ipt/*.torrent,d.set_directory=/data/torrent/ipt/"
-schedule = watch_dir_kor,5,5,"load_start=/watch/kor/*.torrent,d.set_directory=/data/torrent/kor/"
-schedule = untied_directory,5,5,stop_untied=
-
-# Close torrents when diskspace is low. */
-#schedule = low_diskspace,5,60,close_low_diskspace=100M
-
-# Stop torrents when reaching upload ratio in percent,
-# when also reaching total upload in bytes, or when
-# reaching final upload ratio in percent.
-# example: stop at ratio 2.0 with at least 200 MB uploaded, or else ratio 20.0
-#schedule = ratio,60,60,stop_on_ratio=100,200,200
-
-# When the torrent finishes, it executes "mv -n <base_path> ~/Download/"
-# and then sets the destination directory to "~/Download/". (0.7.7+)
-# on_finished = move_complete,"d.set_directory=$d.get_custom1= ;execute=mv,-u,$d.get_base_path=,$d.get_custom1="
-
-# On completion, move the files to the directory from custom3
-#method.set_key=event.download.finished,move_complete,"execute=mv,-u,$d.get_base_path=,$d.get_custom3=;d.set_directory=$d.get_custom3="
-
-# Port range to use for listening.
-port_range = 49184-49184
-
 scgi_local = /tmp/rtorrent.sock
-schedule = scgi_permission,0,0,"execute.nothrow=chmod,\"g+w,o=\",/tmp/rtorrent.sock"
 
-# Start opening ports at a random position within the port range.
-port_random = yes
-
-# Check hash for finished torrents. Might be usefull until the bug is
-# fixed that causes lack of diskspace not to be properly reported.
-#check_hash = no
-
-# Set whetever the client should try to connect to UDP trackers.
-use_udp_trackers = yes
-
-# Encryption options, set to none (default) or any combination of the following:
-# allow_incoming, try_outgoing, require, require_RC4, enable_retry, prefer_plaintext
-#
-# The example value allows incoming encrypted connections, starts unencrypted
-# outgoing connections but retries with encryption if they fail, preferring
-# plaintext to RC4 encryption after the encrypted handshake
-#
-encryption = allow_incoming,enable_retry
-
-#
-# Do not modify the following parameters unless you know what you're doing.
-#
-
-# Hash read-ahead controls how many MB to request the kernel to read
-# ahead. If the value is too low the disk may not be fully utilized,
-# while if too high the kernel might not be able to keep the read
-# pages in memory thus end up trashing.
-#hash_read_ahead = 10
-
-# Interval between attempts to check the hash, in milliseconds.
-#hash_interval = 100
-
-# Number of attempts to check the hash while using the mincore status,
-# before forcing. Overworked systems might need lower values to get a
-# decent hash checking rate.
-#hash_max_tries = 10
-
-# Max number of files to keep open simultaniously.
-#max_open_files = 128
-
-# Number of sockets to simultaneously keep open.
-#max_open_sockets = <no default>
-
-dht = auto
-dht_port = 6881
 encoding_list = UTF-8
+port_range = 49184-49184
+port_random = no
+check_hash = no
+directory = /data/torrents
+session = /data/.session
+encryption = allow_incoming, try_outgoing, enable_retry
+trackers.use_udp.set = yes
+dht.mode.set = off
+protocol.pex.set = no
+
+min_peers = 1
+max_peers = 100
+min_peers_seed = 1
+max_peers_seed = 50
+max_uploads = 15
+
+network.xmlrpc.size_limit.set = 10000000
+
+schedule = watch_directory_new,1,1,"load.start=/watch/*.torrent,d.set_directory=/data/torrent/"
+schedule = watch_directory_jap,5,5,"load_start=/watch/jap/*.torrent,d.set_directory=/data/torrent/jap/"
+schedule = watch_directory_ipt,5,5,"load_start=/watch/ipt/*.torrent,d.set_directory=/data/torrent/ipt/"
+schedule = watch_directory_kor,5,5,"load_start=/watch/kor/*.torrent,d.set_directory=/data/torrent/kor/"
+schedule = scgi_permission,0,0,"execute.nothrow=chmod,\"g+w,o=\",/tmp/rtorrent.sock"
+schedule = insufficient_disk_space,1,30,close_low_diskspace=500M
+
+method.set_key=event.download.inserted_new,loaded_time,"d.custom.set=addtime,$cat=$system.time=;d.save_full_session="
