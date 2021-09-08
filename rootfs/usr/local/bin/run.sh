@@ -1,9 +1,5 @@
 #!/bin/sh
 
-mkdir -p /data/torrents
-mkdir -p /data/.watch
-mkdir -p /data/.session
-
 rm -f /data/.session/rtorrent.lock
 
 chown -R $UID:$GID /data /home/torrent /tmp /usr/flood/dist /flood-db /etc/s6.d

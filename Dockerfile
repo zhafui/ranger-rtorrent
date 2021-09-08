@@ -74,6 +74,7 @@ RUN NB_CORES=${BUILD_CORES-`getconf _NPROCESSORS_CONF`} \
 
 COPY rootfs /
 
+RUN /sbin/ldconfig /
 RUN chmod +x /usr/local/bin/* /etc/s6.d/*/* /etc/s6.d/.s6-svscan/* && cd /usr/flood/ && npm run build
 
 VOLUME /data /flood-db
@@ -85,4 +86,4 @@ LABEL description="BitTorrent client with WebUI front-end" \
       libtorrent="libtorrent v$LIBTORRENT_VER" \
       maintainer="kosh <kosh@vorlon.net.nz>"
 
-CMD [ "run.sh" ]
+CMD run.sh
